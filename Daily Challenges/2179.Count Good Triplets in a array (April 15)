@@ -1,0 +1,77 @@
+#Working Daily challenge Code -- Fetched from Chatgpt as seeking output was very difficult!!!
+
+import java.util.*;
+class Solution {
+    public long goodTriplets(int[] nums1, int[] nums2) {
+       
+
+        int n = nums1.length;
+
+        // Step 1: Map elements of nums2 to their positions
+        int[] pos = new int[n]; // pos[val] = index of val in nums2
+        for (int i = 0; i < n; i++) {
+            pos[nums2[i]] = i;
+        }
+
+        // Step 2: Convert nums1 into the positions in nums2
+        int[] newNums = new int[n]; 
+        for (int i = 0; i < n; i++) {
+            newNums[i] = pos[nums1[i]];
+        }
+
+        // Step 3: Initialize Fenwick Tree for left count
+        FenwickTree leftBIT = new FenwickTree(n);
+        int[] leftSmaller = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            // Count how many indices before i have smaller value
+            leftSmaller[i] = leftBIT.query(newNums[i]);
+            leftBIT.update(newNums[i], 1);
+        }
+
+        // Step 4: Right count using another Fenwick Tree
+        FenwickTree rightBIT = new FenwickTree(n);
+        int[] rightGreater = new int[n];
+
+        for (int i = n - 1; i >= 0; i--) {
+            // Count how many indices after i have greater value
+            rightGreater[i] = rightBIT.query(n - 1) - rightBIT.query(newNums[i]);
+            rightBIT.update(newNums[i], 1);
+        }
+
+        // Step 5: Multiply both counts to get number of good triplets
+        long count = 0;
+        for (int i = 0; i < n; i++) {
+            count += (long) leftSmaller[i] * rightGreater[i];
+        }
+
+        return count;
+    }
+
+    // Fenwick Tree (Binary Indexed Tree) for range sum queries and point updates
+    class FenwickTree {
+        int[] bit;
+
+        FenwickTree(int size) {
+            bit = new int[size + 1];
+        }
+
+        void update(int index, int value) {
+            index++; // Convert to 1-based index
+            while (index < bit.length) {
+                bit[index] += value;
+                index += index & -index; // Move to parent
+            }
+        }
+
+        int query(int index) {
+            index++; // Convert to 1-based index
+            int result = 0;
+            while (index > 0) {
+                result += bit[index];
+                index -= index & -index; // Move to child
+            }
+            return result;
+        }
+    }
+}
