@@ -1,0 +1,32 @@
+#Chatgpt driven code with comments explanation!!
+
+import java.util.HashMap;
+
+class Solution {
+    public long countGood(int[] nums, int k) {
+
+        HashMap<Integer, Integer> freq = new HashMap<>();
+        long pairs = 0;
+        long result = 0;
+        int left = 0;
+
+        for (int right = 0; right < nums.length; right++) {
+            int val = nums[right];
+
+            // If val already exists, it will form `freq[val]` new pairs
+            pairs += freq.getOrDefault(val, 0);
+            freq.put(val, freq.getOrDefault(val, 0) + 1);
+
+            // Try shrinking the window from the left while we have enough pairs
+            while (pairs >= k) {
+                result += nums.length - right;  // All subarrays from current left to end are valid
+                int leftVal = nums[left];
+                freq.put(leftVal, freq.get(leftVal) - 1);
+                pairs -= freq.get(leftVal);  // Reduce pairs made by leftVal
+                left++;
+            }
+        }
+
+        return result;
+    }
+}
