@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+
+    int sumofdig(int n){
+            int sum=0;
+        while(n>0){
+                sum+=n%10;
+                n=n/10;
+
+        }
+        return sum;
+
+    }
+
+    public int countLargestGroup(int n) {
+
+         Map<Integer,Integer> freq = new HashMap<>();
+
+        for( int i=1;i<=n;i++){
+            int summ=sumofdig(i);
+            freq.put(summ,freq.getOrDefault(summ,0)+1);
+        }
+        int maxx=0;
+        for(int size: freq.values()){
+
+            maxx=Math.max(maxx,size);
+        }
+         int count=0;
+        for(int num : freq.values()){
+            if(num==maxx){
+                count++;
+            }
+        }
+           
+
+        return count;
+    
+    }
+}
