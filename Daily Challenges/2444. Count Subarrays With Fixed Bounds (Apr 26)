@@ -1,0 +1,29 @@
+class Solution {
+    public long countSubarrays(int[] nums, int minK, int maxK) {
+        int n = nums.length;
+        int minIndex = -1, maxIndex = -1, badIndex = -1;
+        long count = 0;
+
+        for (int i = 0; i < n; i++) {
+            int val = nums[i];
+
+            if (val < minK || val > maxK) {
+                badIndex = i;
+            }
+            if (val == minK) {
+                minIndex = i;
+            }
+            if (val == maxK) {
+                maxIndex = i;
+            }
+
+            // valid subarray ends at i if both minK and maxK appeared after badIndex
+            int validStart = Math.min(minIndex, maxIndex);
+            if (validStart > badIndex) {
+                count += validStart - badIndex;
+            }
+        }
+
+        return count;
+    }
+}
