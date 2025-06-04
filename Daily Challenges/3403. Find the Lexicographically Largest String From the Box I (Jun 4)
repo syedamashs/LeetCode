@@ -1,0 +1,29 @@
+class Solution {
+    public String answerString(String word, int numFriends) {
+        int k = word.length() - numFriends + 1;
+        String ans="";
+
+        if(numFriends==1){
+            return word;
+        }
+
+        for(int i=0;i<word.length();i++){
+            String temp;
+            if(i+k<=word.length()){
+                temp=word.substring(i,i+k);
+            }
+            else{
+                temp=word.substring(i);
+            }
+
+            if(temp.compareTo(ans)>0){
+            ans=temp;
+        }
+        }
+
+    return ans;
+
+}
+
+
+}
