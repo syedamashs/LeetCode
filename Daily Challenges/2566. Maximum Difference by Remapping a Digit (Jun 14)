@@ -1,0 +1,32 @@
+class Solution {
+    public int minMaxDifference(int num) {
+        String str = String.valueOf(num);
+        char[] maxc = str.toCharArray();
+        char[] minc = str.toCharArray();
+
+        char chartorep = ' ';
+        for(char ch : maxc){
+            if(ch!='9'){
+                chartorep = ch;
+                break;
+            }
+        }
+
+        for(int i=0;i<maxc.length;i++){
+            if(maxc[i]==chartorep){
+                maxc[i]='9';
+            }
+        }
+
+        chartorep = minc[0];
+        for(int i=0;i<minc.length;i++){
+            if(minc[i]==chartorep){
+                minc[i]='0';
+            }
+        }
+
+        return Integer.parseInt(new String(maxc)) - Integer.parseInt(new String(minc));
+
+
+    }
+}
