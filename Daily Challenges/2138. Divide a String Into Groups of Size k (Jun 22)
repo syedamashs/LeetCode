@@ -1,0 +1,26 @@
+class Solution {
+    public String[] divideString(String s, int k, char fill) {
+
+    List<String> arr = new ArrayList<>();
+    int i=0;
+    for(int j=0;j<Math.ceil((double)s.length()/k);j++){
+        String a = "";
+        while(i<s.length()){
+            a=a+s.charAt(i);
+            i++;
+            if(a.length()==k) break;
+        }
+
+        if(a.length()!=k){
+            while(a.length()!=k){
+                a=a+fill;
+            }
+        }
+
+        arr.add(a);
+        a="";
+    }
+        String[] newarr = arr.toArray(new String[0]);
+        return newarr;
+    }
+}
